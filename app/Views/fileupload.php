@@ -20,7 +20,7 @@
                 </div>
                 <div class="col mb-3">
                     <button type="submit" disabled id='upload_btn' class="btn btn-primary col-lg-12 col-md-12 col-xs-12 mb-3">
-                        <span style='display:none' id='loader' class=" spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span style='visibility:hidden' id='loader' class=" spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         Upload
                     </button>
                     <div id='download' style='display:none'>
@@ -64,7 +64,7 @@
 
             $('#file_Upload').submit(function(e){
                 e.preventDefault();
-                $('#loader').css('display','block');
+                $('#loader').css('visibility','visible');
                 $.ajax({
                     type: "POST",
                     url: "<?= base_url('file_upload')?>",
@@ -76,12 +76,14 @@
                     success: function(data){
                         console.log(data.success);
                         if(data.success == '400'){
-                            $('#download').css('display','block');
+                            setTimeout(function(){
+                                $('#download').css('display','block');
+                                $('#loader').css('visibility','hidden');
+                            },2000);
                         }
                     }
                 });
                 $('#upload_btn').attr('disabled',true);
-                $('#loader').css('display','none');
                 // $('#name').html('Select File');
             }); 
         });

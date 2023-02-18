@@ -23,9 +23,7 @@ class Fileupload extends BaseController
         if(is_file("public/uploads/test.csv")){
             unlink("public/uploads/test.csv");
         }
-        
         $file->move(ROOTPATH . 'public/uploads/', 'test.csv');
-
         $data_res = $this->db->table('restrictions')->where('id', '1')->get(1)->getResultArray();
         $replace_Array_brand = explode(',', $data_res[0]['brand_res']);
         $replace_Array_product = explode(',', $data_res[0]['item_res']);
@@ -34,7 +32,7 @@ class Fileupload extends BaseController
         $num = 0;
         $row = 0;
         $handle = fopen("public/uploads/test.csv", "r");
-      
+
         //remove all commas
         while ($data = fgetcsv($handle, 1000, ",")) {
             $num = count($data);
@@ -114,7 +112,7 @@ class Fileupload extends BaseController
                 $csv = $csv . $str[3];
             }
         }
-  
+
         // stats
         $statistics = $this->db->table('statistics')->where('id', '1')->get(1)->getResultArray();
         $stats = array(
@@ -129,9 +127,10 @@ class Fileupload extends BaseController
         }
         $myfile = fopen("public/uploads/" . $downloadname, "w");
         fwrite($myfile, $csv);
-        fclose($myfile);
-        unlink("public/uploads/test.csv");
-        $result['success'] = '400';
-        return $this->response->setJSON($result);
+        if(fclose($myfile)){
+	        unlink("public/uploads/test.csv");
+        	$result['success'] = '400';
+        	return $this->response->setJSON($result);
+	    }
     }
 }
