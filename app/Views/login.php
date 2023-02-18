@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css" integrity="sha512-1k7mWiTNoyx2XtmI96o+hdjP8nn0f3Z2N4oF/9ZZRgijyV4omsKOXEnqL1gKQNPy2MTSP9rIEWGcH/CInulptA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Catalog Filter</title>
+    <title>Approval Filter</title>
 </head>
 
 <body>
@@ -35,7 +35,7 @@
             <form id='loginform'>
                 <div class="col-lg-6 col-md-8 col-xs-12 login_Container">
                     <div class="col">
-                        <h3 class='mb-3'> Login test123</h3>
+                        <h3 class='mb-3'> Login </h3>
                         <div class="input-group mb-3">
                             <input type="email" class="form-control" name='username' id='username' placeholder="Email" aria-label="Username" value='<?php helper('cookie');
                                                                                                                                                     echo get_cookie('email') ?>'>

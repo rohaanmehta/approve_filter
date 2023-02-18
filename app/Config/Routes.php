@@ -33,18 +33,18 @@ $routes->get('/', 'Login::view');
 $routes->post('Auth', 'Login::Auth');
 
 $routes->group("/", ["filter" => "auth"], function ($routes) {
-    $routes->get('fileupload', 'Fileupload::view');
+    $routes->get('csv', 'Csv::view');
     $routes->get('dashboard', 'Dashboard::view');
-    $routes->get('keywords', 'Keyword::view');
-    $routes->get('unlink', 'Fileupload::unlink');
-    $routes->post('file_upload', 'Fileupload::file_upload');
+    $routes->get('unlink', 'Csv::unlink');
+    $routes->post('file_upload', 'Csv::file_upload');
     $routes->post('logout', 'Login::logout');
     $routes->get('usermaster', 'Usermenu::view');
     $routes->get('userform', 'userform::view');
     $routes->get('delete_User/?(:any)', 'userform::delete_User/$1');
     $routes->get('edit_user/?(:any)', 'userform::edit_user/$1');
     $routes->post('add_User', 'userform::add_User');
-    $routes->post('add_keyword', 'Keyword::add_keyword');
+    $routes->get('delete_csv/?(:any)', 'Csv::delete_csv/$1');
+    $routes->get('approve_csv/?(:any)', 'Csv::approve_csv/$1');
 });
 
 /*
