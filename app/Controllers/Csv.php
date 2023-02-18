@@ -52,18 +52,35 @@ class Csv extends BaseController
             }
             $row++;
         }
-        // echo'<pre>';print_r($arr);exit;
+      
         for($k = 1; $k < count($arr); $k++){
+            //image resolution
+            list($width, $height) = getimagesize($arr[$k][0]);
+            $bad_image = '0';
+            if($width < 400 || $height < 500){
+                $bad_image = '1';
+            }
+            //sku check
+            $sku_check = $this->db->table('csv')->where('sku',$arr[$k][2])->where('is_deleted','0')->countAllResults();
+            $sku_repeat = '0';
+            if($sku_check != 0){
+                $sku_repeat = '1';
+            }
+            //insert
             $data = array(
                 'image' => $arr[$k][0],
                 'name' => $arr[$k][1],
                 'sku' => $arr[$k][2],
                 'price' => $arr[$k][3],
                 'date' => date('Y-m-d'),
+                'repeated_sku' => $sku_repeat,
+                'bad_image' => $bad_image,
             );
             $this->db->table('csv')->insert($data);
         }
-        unlink("public/uploads/test.csv");
+        if(is_file("public/uploads/test.csv")){
+            unlink("public/uploads/test.csv");
+        }
         $result['success'] = '400';
         return $this->response->setJSON($result);
     }

@@ -115,9 +115,9 @@
                         $i = 0;
                         foreach ($result as $row) { ?>
                             <tr>
-                                <td><?= '<img width="100" height="100" src=' . $result[$i]['image'] . '/>' ?></td>
+                                <td><?= '<img width="100" height="100" src=' . $result[$i]['image'] . '>' ?><?php if($result[$i]['bad_image'] == '1'){echo ' (Poor Image)';} ?></td>
                                 <td><?= $result[$i]['name'] ?></td>
-                                <td><?= $result[$i]['sku'] ?></td>
+                                <td><?= $result[$i]['sku'] ?><?php if($result[$i]['repeated_sku'] == '1'){echo ' (Repeated SKU)';} ?></td>
                                 <td><?= $result[$i]['price'] ?></td>
                                 <td><?= $result[$i]['date'] ?></td>
                                 <td style="text-align:center">
