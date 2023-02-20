@@ -207,10 +207,10 @@
                 $.ajax({
                     type: "POST",
                     url: "<?= base_url('download_csv') ?>",
-                    data: {},
-                    contentType: false,
-                    cache: false,
-                    processData: false,
+                    data: {
+                        startdate:$('#date1').val(),
+                        enddate:$('#date2').val(),
+                    },
                     dataType: "json",
                     success: function(data) {
                         var name = data.name;

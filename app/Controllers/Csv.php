@@ -98,7 +98,11 @@ class Csv extends BaseController
     }
 
     function download_csv(){
-        $csv = $this->db->table('csv')->select('image,name,sku,price,date')->where('is_approved','1')->get()->getResultArray();
+        $startdate = $_POST['startdate'];
+        $enddate = $_POST['enddate'];
+        $startdate = date('Y-m-d',strtotime($startdate));
+        $enddate = date('Y-m-d',strtotime($enddate));
+        $csv = $this->db->table('csv')->select('image,name,sku,price,date')->where('is_approved','1')->where('date >=',$startdate)->where('date <=',$enddate)->get()->getResultArray();
         $data = 'image,name,sku,price,date';
         foreach($csv as $row){
             $data = $data.'
