@@ -29,7 +29,7 @@ class Auth implements FilterInterface
     {
         $session = session();
         if($session->get('username') == ''){
-            return redirect()->to(base_url('/'));
+            return redirect()->to(base_url('/csv'));
         } 
     }
 

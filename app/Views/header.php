@@ -36,7 +36,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css" integrity="sha512-1k7mWiTNoyx2XtmI96o+hdjP8nn0f3Z2N4oF/9ZZRgijyV4omsKOXEnqL1gKQNPy2MTSP9rIEWGcH/CInulptA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Approval Filter</title>
+    <title>Approval Portal</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <style>
         .headerlink:hover{
@@ -48,8 +48,9 @@
 <body>
 <div class="topnav" id="myTopnav" style='display:flex;justify-content:space-between'>
 <div>
-  <a class='headerlink' href="<?= base_url('/dashboard')?>" class="active">Home</a>
-  <a class='headerlink' href="<?= base_url('/csv')?>">CSV</a>
+  <!-- <a class='headerlink' href="<?= base_url('/dashboard')?>" class="active">Home</a> -->
+  <a class='headerlink' href="<?= base_url('/csv')?>">Upload Products</a>
+  <a class='headerlink' href="<?= base_url('/download_view')?>">Download Products</a>
   <a class='headerlink' href="<?= base_url('/usermaster')?>">User Master</a>
   <button type="button" style='margin-right:10px;height:35px;margin-top:9px;padding-top:5px;' class="logout login_Btn btn btn-primary col-lg-0 col-md-0 col-xs-2">LOGOUT</button>
 </div>

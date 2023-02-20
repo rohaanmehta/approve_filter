@@ -63,7 +63,7 @@
             border-radius: 50%;
         }
     </style>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" referrerpolicy="no-referrer" /></head>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 </head>
 
@@ -168,14 +168,14 @@
             </table>
         </div>
     </div>
-    <div class="container mb-3" style='margin-top:10px;padding:0px;display:flex;justify-content:center'>
+    <!-- <div class="container mb-3" style='margin-top:10px;padding:0px;display:flex;justify-content:center'>
         <div class="col-lg-4 col-md-4 col-xs-12" style='padding:0px'>
             <button type="button" id='download_Btn' class="btn btn-primary col-lg-12 col-md-12 col-xs-12">
                 <span style='visibility:hidden' id='loader2' class=" spinner-border spinner-border-sm" role="status" aria-hidden="true">
                 </span>
             Download CSV</button>
         </div>
-    </div>
+    </div> -->
     <script>
         $(document).ready(function() {
             $("#date1").datepicker({

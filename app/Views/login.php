@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css" integrity="sha512-1k7mWiTNoyx2XtmI96o+hdjP8nn0f3Z2N4oF/9ZZRgijyV4omsKOXEnqL1gKQNPy2MTSP9rIEWGcH/CInulptA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Approval Filter</title>
+    <title>Approval Portal</title>
 </head>
 
 <body>
@@ -91,7 +91,7 @@
                                 duration: 2000
                             }).showToast();
                             setTimeout(function() {
-                                window.location.href = '<?= base_url('dashboard') ?>';
+                                window.location.href = '<?= base_url('csv') ?>';
                             }, 2000);
                         }
                     }
