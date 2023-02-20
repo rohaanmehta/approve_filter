@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <?php include('header.php') ?>
     <style>
@@ -64,6 +63,8 @@
             border-radius: 50%;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 </head>
 
 <body>
@@ -89,14 +90,38 @@
         </div>
     </form>
     <div class="container mb-3" style='background:#f7f7f7;padding:20px;border-radius:5px;margin-top:30px;'>
-        <div style='display:flex;justify-content:space-between' class='mb-3'>
+        <div style='display:flex;justify-content:space-between' class=''>
             <h4>CSV Details</h4>
             <div class='col-lg-3 col-md-5 col-xs-12'>
                 <a href='<?= base_url('userform') ?>'>
-                    <!-- <button type="button" class="btn btn-primary col-lg-12 col-md-12 col-xs-12 mb-3">Add User</button> -->
                 </a>
             </div>
         </div>
+        <div class="row" style='justify-content:flex-end'>
+            <div class="col-lg-3">
+                <div class="wd-200 mg-b-20">
+                    <label for="form-label">Start Date </label>
+                    <div class="input-group">
+                        <input class="form-control input-date" name="date1" id='date1'>
+                        <div class="input-group-text" autocomplete="off">
+                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="wd-200 mg-b-20">
+                    <label for="form-label">End Date </label>
+                    <div class="input-group">
+                        <input class="form-control input-date" name="date2" id='date2'>
+                        <div class="input-group-text" autocomplete="off">
+                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="table-responsive-md">
             <table class="table table-bordered table-striped" id='myTable'>
                 <thead>
@@ -119,7 +144,7 @@
                                 <td><?= $result[$i]['name'] ?></td>
                                 <td><?= $result[$i]['sku'] ?><?php if($result[$i]['repeated_sku'] == '1'){echo ' (Repeated SKU)';} ?></td>
                                 <td><?= $result[$i]['price'] ?></td>
-                                <td><?= $result[$i]['date'] ?></td>
+                                <td><?= date('d-m-Y',strtotime($result[$i]['date'])) ?></td>
                                 <td style="text-align:center">
                                     <div>
                                         <label class="switch">
@@ -143,13 +168,63 @@
             </table>
         </div>
     </div>
-    <!-- <div class="container mb-3" style='margin-top:10px;padding:0px;display:flex;justify-content:center'>
+    <div class="container mb-3" style='margin-top:10px;padding:0px;display:flex;justify-content:center'>
         <div class="col-lg-4 col-md-4 col-xs-12" style='padding:0px'>
-            <button type="button" id='download_Btn' class="btn btn-primary col-lg-12 col-md-12 col-xs-12">Download CSV</button>
+            <button type="button" id='download_Btn' class="btn btn-primary col-lg-12 col-md-12 col-xs-12">
+                <span style='visibility:hidden' id='loader2' class=" spinner-border spinner-border-sm" role="status" aria-hidden="true">
+                </span>
+            Download CSV</button>
         </div>
-    </div> -->
+    </div>
     <script>
         $(document).ready(function() {
+            $("#date1").datepicker({
+                format: 'dd-mm-yyyy',
+                orientation: 'bottom',
+                autoclose: true,
+                todayHighlight: true,
+            }).datepicker("setDate",'<?= $startdate ?>');
+            
+            $("#date2").datepicker({
+                format: 'dd-mm-yyyy',
+                orientation: 'bottom',
+                autoclose: true,
+                todayHighlight: true,
+            }).datepicker("setDate", '<?= $enddate ?>');
+
+            $("#date1").change(function(){
+                var date = $("#date1").val();
+                var date2 = $("#date2").val();
+                window.location.href = '<?= base_url('csv')?>'+'/'+date +'|'+ date2;
+            });
+            $("#date2").change(function(){
+                var date = $("#date1").val();
+                var date2 = $("#date2").val();
+                window.location.href = '<?= base_url('csv')?>'+'/'+date +'|'+ date2;
+            });
+            $('#download_Btn').click(function(){
+                $('#loader2').css('visibility','visible');
+                $.ajax({
+                    type: "POST",
+                    url: "<?= base_url('download_csv') ?>",
+                    data: {},
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function(data) {
+                        var name = data.name;
+                        setTimeout(function(){
+                            $('#loader2').css('visibility','hidden');
+                            window.location.href = '<?= base_url('public/uploads')?>'+'/'+name;
+                            setTimeout(function(){
+                                unlink(name);
+                            },5000);
+                        },10000);
+                    }
+                });
+            });
+
             $('#file').change(function() {
                 var name = $('#file').val();
                 name = name.split('\\');
@@ -159,9 +234,7 @@
             });
             $('#myTable').DataTable({
                 dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ]
+                buttons: [   ]
             });
 
             $('#file_Upload').submit(function(e) {
@@ -222,6 +295,19 @@
                 url: '<?php echo base_url('approve_csv/'); ?>/' + id,
                 Type: 'GET',
                 success: function(data) {}
+            });
+        }
+        
+        function unlink(name){
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url('unlink') ?>",
+                data: {
+                    name:name
+                },
+                dataType: "json",
+                success: function(data) {
+                }
             });
         }
     </script>

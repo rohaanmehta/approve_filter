@@ -33,7 +33,7 @@ $routes->get('/', 'Login::view');
 $routes->post('Auth', 'Login::Auth');
 
 $routes->group("/", ["filter" => "auth"], function ($routes) {
-    $routes->get('csv', 'Csv::view');
+    $routes->get('csv/?(:any)', 'Csv::view/$1');
     $routes->get('dashboard', 'Dashboard::view');
     $routes->get('unlink', 'Csv::unlink');
     $routes->post('file_upload', 'Csv::file_upload');
@@ -45,6 +45,8 @@ $routes->group("/", ["filter" => "auth"], function ($routes) {
     $routes->post('add_User', 'userform::add_User');
     $routes->get('delete_csv/?(:any)', 'Csv::delete_csv/$1');
     $routes->get('approve_csv/?(:any)', 'Csv::approve_csv/$1');
+    $routes->post('download_csv', 'Csv::download_csv');
+    $routes->post('unlink', 'Csv::unlink');
 });
 
 /*

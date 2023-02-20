@@ -4,9 +4,21 @@ namespace App\Controllers;
 
 class Csv extends BaseController
 {
-    public function view()
-    {
-        $data['result'] = $this->db->table('csv')->where('is_deleted','0')->get()->getResultArray();
+    public function view($date)
+    {   
+        if(isset($date) && $date != ''){
+            $date = explode('|',$date);
+            $startdate = date('Y-m-d',strtotime($date[0]));
+            $enddate = date('Y-m-d',strtotime($date[1]));
+        }else{
+            $mindate = $this->db->table('csv')->selectMin('date')->get(1)->getResultArray();
+            $maxdate = $this->db->table('csv')->selectMax('date')->get(1)->getResultArray();
+            $startdate = $mindate[0]['date'];
+            $enddate = $maxdate[0]['date'];
+        }
+        $data['result'] = $this->db->table('csv')->where('is_deleted','0')->where('date >=',$startdate)->where('date <=',$enddate)->get()->getResultArray();
+        $data['startdate'] = date('d-m-Y',strtotime($startdate));
+        $data['enddate'] = date('d-m-Y',strtotime($enddate));
         return view('csv',$data);
     }
 
@@ -83,5 +95,26 @@ class Csv extends BaseController
         }
         $result['success'] = '400';
         return $this->response->setJSON($result);
+    }
+
+    function download_csv(){
+        $csv = $this->db->table('csv')->select('image,name,sku,price,date')->where('is_approved','1')->get()->getResultArray();
+        $data = 'image,name,sku,price,date';
+        foreach($csv as $row){
+            $data = $data.'
+'.$row['image'].','.$row['name'].','.$row['sku'].','.$row['price'].','.$row['date'];
+        }
+        // create file
+        $downloadname = 'CSV_'.date('Y-m-d').'.csv';
+        $myfile = fopen("public/uploads/" . $downloadname, "w");
+        fwrite($myfile, $data);
+        $result['name'] = $downloadname;
+        return $this->response->setJSON($result);
+    }
+
+    function unlink(){
+        if(is_file("public/uploads/".$_POST['name'])){
+            unlink("public/uploads/".$_POST['name']);
+        }
     }
 }
